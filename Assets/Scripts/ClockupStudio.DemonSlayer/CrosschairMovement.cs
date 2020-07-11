@@ -1,18 +1,21 @@
-﻿using System.Collections;
+﻿using System;
 using UnityEngine;
 
 namespace ClockupStudio.DemonSlayer
 {
-    internal enum ClockwiseState
+    internal enum Rotation
     {
         Clockwise = 1,
         CounterClockwise = -1
     }
 
-    struct AngleDirection
+    internal struct CrosschairMovementState
     {
+        // Track angle in each update loop.
+        public float CurrentAngle;
         public float StartAngle, EndAngle;
-        public ClockwiseState ClockwiseState;
+        public Rotation Rotation;
+        public Direction PreviousPlayerDirection;
     }
 
     public class CrosschairMovement : MonoBehaviour
@@ -22,34 +25,25 @@ namespace ClockupStudio.DemonSlayer
         public float Speed = 2f;
         public PlayerDirection PlayerDirection;
 
-        private float _angle;
-        private AngleDirection _angleDirection;
-        private ClockwiseState _clockwiseState;
-        private Direction _previousPlayerDirection;
+        private CrosschairMovementState _state;
 
         private void Start()
         {
-            DetectAngleFromPlayerDirection();
-            _angle = _angleDirection.StartAngle;
-            _clockwiseState = _angleDirection.ClockwiseState;
-            _previousPlayerDirection = PlayerDirection.CurrentDirection;
+            _state = InitializeState(PlayerDirection.CurrentDirection);
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (_previousPlayerDirection != PlayerDirection.CurrentDirection)
+            if (_state.PreviousPlayerDirection != PlayerDirection.CurrentDirection)
             {
-                DetectAngleFromPlayerDirection();
-                _angle = _angleDirection.StartAngle;
-                _clockwiseState = _angleDirection.ClockwiseState;
-                _previousPlayerDirection = PlayerDirection.CurrentDirection;
+                _state = InitializeState(PlayerDirection.CurrentDirection);
             }
 
-
-            transform.position = PositionFromAngle(_angle) + PlayerPosition.position;
-            _angle += (Time.unscaledDeltaTime * Speed) * (int) _clockwiseState;
-            _clockwiseState = NextClockwise(_clockwiseState, _angle, _angleDirection);
+            transform.position = PositionFromAngle(_state.CurrentAngle) + PlayerPosition.position;
+            _state.CurrentAngle += Time.unscaledDeltaTime * Speed * (int) _state.Rotation;
+            _state.Rotation =
+                NextClockwise(_state.Rotation, _state.CurrentAngle, _state.StartAngle, _state.EndAngle);
         }
 
         private Vector3 PositionFromAngle(float angle)
@@ -59,41 +53,49 @@ namespace ClockupStudio.DemonSlayer
             return new Vector3(x, y);
         }
 
-        private ClockwiseState NextClockwise(ClockwiseState clockwiseState, float angle, AngleDirection angleDirection)
-        {
-            if (clockwiseState == ClockwiseState.Clockwise && angle >= angleDirection.EndAngle)
-            {
-                return ClockwiseState.CounterClockwise;
-            }
-            else if (clockwiseState == ClockwiseState.CounterClockwise && angle <= angleDirection.StartAngle)
-            {
-                return ClockwiseState.Clockwise;
-            }
+        #region State
 
-            return clockwiseState;
-        }
-
-        private void DetectAngleFromPlayerDirection()
+        private static CrosschairMovementState InitializeState(Direction dir)
         {
-            switch (PlayerDirection.CurrentDirection)
+            var state = new CrosschairMovementState
+            {
+                PreviousPlayerDirection = dir
+            };
+
+            switch (dir)
             {
                 case Direction.Right:
-                    _angleDirection = new AngleDirection
-                    {
-                        StartAngle = 0f,
-                        EndAngle = 90f,
-                        ClockwiseState = ClockwiseState.Clockwise
-                    };
+                    state.StartAngle = 0f;
+                    state.EndAngle = 90f;
+                    state.Rotation = Rotation.Clockwise;
                     break;
                 case Direction.Left:
-                    _angleDirection = new AngleDirection
-                    {
-                        StartAngle = 90f,
-                        EndAngle = 180f,
-                        ClockwiseState = ClockwiseState.CounterClockwise
-                    };
+                    state.StartAngle = 90f;
+                    state.EndAngle = 180f;
+                    state.Rotation = Rotation.CounterClockwise;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
+            }
+
+            state.CurrentAngle = state.StartAngle;
+            return state;
+        }
+
+        private static Rotation NextClockwise(Rotation rotation, float angle, float startAngle,
+            float endAngle)
+        {
+            switch (rotation)
+            {
+                case Rotation.Clockwise when angle >= endAngle:
+                    return Rotation.CounterClockwise;
+                case Rotation.CounterClockwise when angle <= startAngle:
+                    return Rotation.Clockwise;
+                default:
+                    return rotation;
             }
         }
+
+        #endregion
     }
 }
