@@ -46,13 +46,17 @@ namespace ClockupStudio.DemonSlayer
                 _previousPlayerDirection = PlayerDirection.CurrentDirection;
             }
 
-            var position = PlayerPosition.position;
-            var x = Mathf.Cos(Mathf.PI * 2 * _angle / 360) * Radius;
-            var y = Mathf.Sin(Mathf.PI * 2 * _angle / 360) * Radius;
 
-            transform.position = new Vector3(x, y) + position;
+            transform.position = PositionFromAngle(_angle) + PlayerPosition.position;
             _angle += (Time.unscaledDeltaTime * Speed) * (int) _clockwiseState;
             _clockwiseState = NextClockwise(_clockwiseState, _angle, _angleDirection);
+        }
+
+        private Vector3 PositionFromAngle(float angle)
+        {
+            var x = Mathf.Cos(Mathf.PI * 2 * angle / 360) * Radius;
+            var y = Mathf.Sin(Mathf.PI * 2 * angle / 360) * Radius;
+            return new Vector3(x, y);
         }
 
         private ClockwiseState NextClockwise(ClockwiseState clockwiseState, float angle, AngleDirection angleDirection)
