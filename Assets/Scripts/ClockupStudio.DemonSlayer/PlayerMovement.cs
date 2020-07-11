@@ -26,7 +26,6 @@ namespace ClockupStudio.DemonSlayer
                 return;
             }
 
-            // Debug.Log($"Origin: {_origin}");
             if (Vector2.Distance(_origin, transform.position) >= Distance)
             {
                 _rb2d.velocity = Vector2.zero;
