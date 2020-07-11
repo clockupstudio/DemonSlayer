@@ -40,13 +40,25 @@ namespace ClockupStudio.DemonSlayer
         {
             if (_state.PreviousPlayerDirection != PlayerDirection.CurrentDirection)
             {
+                Debug.Log("Player change direction, Re-initialize state.");
                 _state = InitializeState(PlayerDirection.CurrentDirection);
             }
 
             transform.position = PositionFromAngle(_state.CurrentAngle) + PlayerPosition.position;
-            _state.CurrentAngle += Time.unscaledDeltaTime * Speed * (int) _state.Rotation;
-            _state.Rotation =
-                NextClockwise(_state.Rotation, _state.CurrentAngle, _state.StartAngle, _state.EndAngle);
+            _state = UpdateState(_state, Time.unscaledDeltaTime, Speed);
+        }
+
+        private static State UpdateState(State previousState, float unscaledDeltaTime, float speed)
+        {
+            return new State
+            {
+                StartAngle = previousState.StartAngle,
+                EndAngle = previousState.EndAngle,
+                CurrentAngle = previousState.CurrentAngle + (unscaledDeltaTime * speed * (int) previousState.Rotation),
+                PreviousPlayerDirection = previousState.PreviousPlayerDirection,
+                Rotation = NextClockwise(previousState.Rotation, previousState.CurrentAngle, previousState.StartAngle,
+                    previousState.EndAngle)
+            };
         }
 
         private Vector3 PositionFromAngle(float angle)
