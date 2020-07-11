@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace ClockupStudio.DemonSlayer
 {
@@ -7,6 +8,12 @@ namespace ClockupStudio.DemonSlayer
         Clockwise = 1,
         CounterClockwise = -1
     }
+
+    struct AngleDirection
+    {
+        public float Start, End;
+    }
+
     public class CrosschairMovement : MonoBehaviour
     {
         public Transform PlayerPosition;
@@ -15,9 +22,19 @@ namespace ClockupStudio.DemonSlayer
 
         public float Speed = 2f;
 
-        private float _angle = 0f;
+        public PlayerDirection PlayerDirection;
 
-        private Clockwises _clockWise = Clockwises.Clockwise;
+        private float _angle;
+        private AngleDirection _angleDirection;
+
+        private Clockwises _clockwise = Clockwises.Clockwise;
+
+        private void Start()
+        {
+            DetectAngleFromPlayerDirection();
+            Debug.Log($"Start Angle Direction: {_angleDirection.Start}");
+            _angle = _angleDirection.Start;
+        }
 
         // Update is called once per frame
         private void Update()
@@ -25,16 +42,43 @@ namespace ClockupStudio.DemonSlayer
             var position = PlayerPosition.position;
             var x = Mathf.Cos(Mathf.PI * 2 * _angle / 360) * Radius;
             var y = Mathf.Sin(Mathf.PI * 2 * _angle / 360) * Radius;
-            
+
             transform.position = new Vector3(x, y) + position;
-            _angle += (Time.deltaTime * Speed) * (int)_clockWise;
-            if (_clockWise == Clockwises.Clockwise && _angle >= 90f)
+            _angle += (Time.deltaTime * Speed) * (int) _clockwise;
+            _clockwise = NextClockwise(_clockwise, _angle, _angleDirection);
+        }
+
+        private Clockwises NextClockwise(Clockwises clockwise, float angle, AngleDirection angleDirection)
+        {
+            if (clockwise == Clockwises.Clockwise && angle >= angleDirection.End)
             {
-                _clockWise = Clockwises.CounterClockwise;
+                return Clockwises.CounterClockwise;
             }
-            else if (_clockWise == Clockwises.CounterClockwise && _angle <= 0)
+            else if (clockwise == Clockwises.CounterClockwise && angle <= angleDirection.Start)
             {
-                _clockWise = Clockwises.Clockwise;
+                return Clockwises.Clockwise;
+            }
+            return clockwise;
+        }
+
+        private void DetectAngleFromPlayerDirection()
+        {
+            switch (PlayerDirection.CurrentDirection)
+            {
+                case Direction.Right:
+                    _angleDirection = new AngleDirection
+                    {
+                        Start = 0f,
+                        End = 90f
+                    };
+                    break;
+                case Direction.Left:
+                    _angleDirection = new AngleDirection
+                    {
+                        Start = 360f,
+                        End = 270f
+                    };
+                    break;
             }
         }
     }

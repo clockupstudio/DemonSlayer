@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 195431078}
   - component: {fileID: 195431077}
   - component: {fileID: 195431079}
+  - component: {fileID: 195431080}
   m_Layer: 0
   m_Name: Demon
   m_TagString: Untagged
@@ -311,7 +312,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -327,6 +328,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &195431080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195431076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e21d1e902a13445ebafa6c2fffb5042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +661,7 @@ GameObject:
   - component: {fileID: 938039773}
   - component: {fileID: 938039772}
   - component: {fileID: 938039774}
+  - component: {fileID: 938039775}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -780,6 +795,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Force: 20
   Distance: 3
+--- !u!114 &938039775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938039769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b718cf0b50fee47868209234bffa1f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1961317694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,3 +1240,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Crosschair: {fileID: 40409615}
   PlayerMovement: {fileID: 938039774}
+  PlayerDirection: {fileID: 0}

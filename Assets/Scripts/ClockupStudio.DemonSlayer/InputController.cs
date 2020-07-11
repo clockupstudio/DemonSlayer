@@ -6,11 +6,12 @@ namespace ClockupStudio.DemonSlayer
     {
         public GameObject Crosschair;
         public PlayerMovement PlayerMovement;
+        public PlayerDirection PlayerDirection;
 
         // Update is called once per frame
         private void Update()
         {
-            if ( Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.Space))
             {
                 if (!Crosschair.activeSelf)
                 {
@@ -21,6 +22,20 @@ namespace ClockupStudio.DemonSlayer
                     Crosschair.SetActive(false);
                     PlayerMovement.Move(Crosschair.transform.position);
                 }
+
+                return;
+            }
+
+            if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                PlayerDirection.CurrentDirection = Direction.Right;
+                return;
+            }
+
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                PlayerDirection.CurrentDirection = Direction.Left;
+                return;
             }
         }
     }
