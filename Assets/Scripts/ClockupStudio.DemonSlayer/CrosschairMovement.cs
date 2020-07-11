@@ -29,7 +29,6 @@ namespace ClockupStudio.DemonSlayer
             public Direction PreviousPlayerDirection;
         }
 
-
         private void Start()
         {
             _state = InitializeState(PlayerDirection.CurrentDirection);
@@ -46,19 +45,6 @@ namespace ClockupStudio.DemonSlayer
 
             transform.position = PositionFromAngle(_state.CurrentAngle) + PlayerPosition.position;
             _state = UpdateState(_state, Time.unscaledDeltaTime, Speed);
-        }
-
-        private static State UpdateState(State previousState, float unscaledDeltaTime, float speed)
-        {
-            return new State
-            {
-                StartAngle = previousState.StartAngle,
-                EndAngle = previousState.EndAngle,
-                CurrentAngle = previousState.CurrentAngle + (unscaledDeltaTime * speed * (int) previousState.Rotation),
-                PreviousPlayerDirection = previousState.PreviousPlayerDirection,
-                Rotation = NextClockwise(previousState.Rotation, previousState.CurrentAngle, previousState.StartAngle,
-                    previousState.EndAngle)
-            };
         }
 
         private Vector3 PositionFromAngle(float angle)
@@ -96,6 +82,23 @@ namespace ClockupStudio.DemonSlayer
             state.CurrentAngle = state.StartAngle;
             return state;
         }
+
+        private static State UpdateState(State previousState, float unscaledDeltaTime, float speed)
+        {
+            return new State
+            {
+                StartAngle = previousState.StartAngle,
+                EndAngle = previousState.EndAngle,
+                CurrentAngle = previousState.CurrentAngle + (unscaledDeltaTime * speed * (int) previousState.Rotation),
+                PreviousPlayerDirection = previousState.PreviousPlayerDirection,
+                Rotation = NextClockwise(previousState.Rotation, previousState.CurrentAngle, previousState.StartAngle,
+                    previousState.EndAngle)
+            };
+        }
+
+        #endregion
+
+        #region Rotation
 
         private static Rotation NextClockwise(Rotation rotation, float angle, float startAngle,
             float endAngle)
