@@ -42,6 +42,7 @@ namespace ClockupStudio.DemonSlayer
 
         public void Move(Vector2 crosschairPosition)
         {
+            _done = false;
             _origin = transform.position;
             _rb2d.gravityScale = 0;
             _rb2d.velocity = (crosschairPosition - (Vector2) _origin).normalized * new Vector2(Force, Force);
