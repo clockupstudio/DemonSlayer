@@ -45,5 +45,11 @@ namespace ClockupStudio.DemonSlayer
         {
             Crosschair.SetActive(true);
         }
+
+        public void Timeout()
+        {
+            Debug.Log("Timeout!!");
+            Crosschair.SetActive(false);
+        }
     }
 }
