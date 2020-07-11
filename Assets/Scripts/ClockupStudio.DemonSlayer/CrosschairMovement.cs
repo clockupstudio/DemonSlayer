@@ -9,14 +9,6 @@ namespace ClockupStudio.DemonSlayer
         CounterClockwise = -1
     }
 
-    internal struct CrosschairMovementState
-    {
-        // Track angle in each update loop.
-        public float CurrentAngle;
-        public float StartAngle, EndAngle;
-        public Rotation Rotation;
-        public Direction PreviousPlayerDirection;
-    }
 
     public class CrosschairMovement : MonoBehaviour
     {
@@ -25,7 +17,18 @@ namespace ClockupStudio.DemonSlayer
         public float Speed = 2f;
         public PlayerDirection PlayerDirection;
 
-        private CrosschairMovementState _state;
+        private State _state;
+
+        // Represents internal state for this component.
+        private struct State
+        {
+            // Track angle in each update loop.
+            public float CurrentAngle;
+            public float StartAngle, EndAngle;
+            public Rotation Rotation;
+            public Direction PreviousPlayerDirection;
+        }
+
 
         private void Start()
         {
@@ -55,9 +58,9 @@ namespace ClockupStudio.DemonSlayer
 
         #region State
 
-        private static CrosschairMovementState InitializeState(Direction dir)
+        private static State InitializeState(Direction dir)
         {
-            var state = new CrosschairMovementState
+            var state = new State
             {
                 PreviousPlayerDirection = dir
             };
