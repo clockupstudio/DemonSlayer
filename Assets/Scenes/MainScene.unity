@@ -218,6 +218,7 @@ MonoBehaviour:
   PlayerPosition: {fileID: 938039771}
   Radius: 1
   Speed: 100
+  PlayerDirection: {fileID: 938039775}
 --- !u!1 &195431076
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +773,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -795,6 +796,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Force: 20
   Distance: 3
+  OnMoveEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2095093576}
+        m_MethodName: OnPlayerEndMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &938039775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,6 +822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b718cf0b50fee47868209234bffa1f76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentDirection: 1
 --- !u!1 &1961317694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,4 +1256,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Crosschair: {fileID: 40409615}
   PlayerMovement: {fileID: 938039774}
-  PlayerDirection: {fileID: 0}
+  PlayerDirection: {fileID: 938039775}

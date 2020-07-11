@@ -38,5 +38,10 @@ namespace ClockupStudio.DemonSlayer
                 return;
             }
         }
+
+        public void OnPlayerEndMove()
+        {
+            Debug.Log("Player End Move!");
+        }
     }
 }

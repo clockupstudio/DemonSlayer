@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace ClockupStudio.DemonSlayer
 {
@@ -7,15 +8,18 @@ namespace ClockupStudio.DemonSlayer
     {
         public float Force;
         public float Distance = 2f;
+        public UnityEvent OnMoveEnd;
 
         private Rigidbody2D _rb2d;
         private Vector3 _origin;
+        private bool _done;
 
         // Start is called before the first frame update
         private void Start()
         {
             _rb2d = GetComponent<Rigidbody2D>();
             _origin = transform.position;
+            _done = false;
         }
 
         // Update is called once per frame
@@ -28,8 +32,11 @@ namespace ClockupStudio.DemonSlayer
 
             if (Vector2.Distance(_origin, transform.position) >= Distance)
             {
-                _rb2d.velocity = Vector2.zero;
-                _rb2d.gravityScale = 1;
+                if (!_done)
+                {
+                    OnMoveEnd.Invoke();
+                    _done = true;
+                }
             }
         }
 
@@ -38,6 +45,12 @@ namespace ClockupStudio.DemonSlayer
             _origin = transform.position;
             _rb2d.gravityScale = 0;
             _rb2d.velocity = (crosschairPosition - (Vector2) _origin).normalized * new Vector2(Force, Force);
+        }
+
+        public void ResetVelocity()
+        {
+            _rb2d.velocity = Vector2.zero;
+            _rb2d.gravityScale = 1;
         }
     }
 }
