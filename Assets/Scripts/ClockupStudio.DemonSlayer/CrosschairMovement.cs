@@ -51,7 +51,7 @@ namespace ClockupStudio.DemonSlayer
             var y = Mathf.Sin(Mathf.PI * 2 * _angle / 360) * Radius;
 
             transform.position = new Vector3(x, y) + position;
-            _angle += (Time.deltaTime * Speed) * (int) _clockwiseState;
+            _angle += (Time.unscaledDeltaTime * Speed) * (int) _clockwiseState;
             _clockwiseState = NextClockwise(_clockwiseState, _angle, _angleDirection);
         }
 

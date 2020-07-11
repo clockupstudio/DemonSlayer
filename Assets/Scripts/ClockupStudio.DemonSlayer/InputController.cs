@@ -7,6 +7,7 @@ namespace ClockupStudio.DemonSlayer
         public GameObject Crosschair;
         public PlayerMovement PlayerMovement;
         public PlayerDirection PlayerDirection;
+        public TimeManager TimeManager;
 
         // Update is called once per frame
         private void Update()
@@ -19,6 +20,7 @@ namespace ClockupStudio.DemonSlayer
                 }
                 else
                 {
+                    TimeManager.CancelSlowdown();
                     Crosschair.SetActive(false);
                     PlayerMovement.Move(Crosschair.transform.position);
                 }
