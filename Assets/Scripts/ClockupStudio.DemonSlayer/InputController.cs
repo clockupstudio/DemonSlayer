@@ -43,7 +43,7 @@ namespace ClockupStudio.DemonSlayer
 
         public void OnPlayerEndMove()
         {
-            Debug.Log("Player End Move!");
+            Crosschair.SetActive(true);
         }
     }
 }
