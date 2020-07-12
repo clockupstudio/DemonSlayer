@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4727393765956103354}
   - component: {fileID: 4727393765956103349}
   - component: {fileID: 847223917}
+  - component: {fileID: 1258866637434997507}
   m_Layer: 0
   m_Name: Demon
   m_TagString: Enemies
@@ -137,3 +138,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
+--- !u!95 &1258866637434997507
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727393765956103353}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 69a2a7799cf59fc45a79f02bc73f79c2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
