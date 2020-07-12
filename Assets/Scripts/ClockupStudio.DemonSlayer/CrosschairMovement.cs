@@ -105,22 +105,28 @@ namespace ClockupStudio.DemonSlayer
         private static Rotation NextRotation(Rotation rotation, float angle, float startAngle,
             float endAngle)
         {
-            switch (rotation)
+            if (startAngle > endAngle)
             {
-                // For rotation of right direction.
-                case Rotation.CounterClockwise when angle >= endAngle && startAngle < endAngle:
-                    return Rotation.Clockwise;
-                case Rotation.Clockwise when angle <= startAngle && startAngle < endAngle:
-                    return Rotation.CounterClockwise;
-
-                // For rotation of left direction.
-                case Rotation.CounterClockwise when angle >= startAngle && startAngle > endAngle:
-                    return Rotation.Clockwise;
-                case Rotation.Clockwise when angle <= endAngle && startAngle > endAngle:
-                    return Rotation.CounterClockwise;
-                default:
-                    return rotation;
+                switch (rotation)
+                {
+                    case Rotation.CounterClockwise when angle >= startAngle:
+                        return Rotation.Clockwise;
+                    case Rotation.Clockwise when angle <= endAngle:
+                        return Rotation.CounterClockwise;
+                }
             }
+            else if (startAngle < endAngle)
+            {
+                switch (rotation)
+                {
+                    // For rotation of right direction.
+                    case Rotation.CounterClockwise when angle >= endAngle:
+                        return Rotation.Clockwise;
+                    case Rotation.Clockwise when angle <= startAngle:
+                        return Rotation.CounterClockwise;
+                }
+            }
+            return rotation;
         }
 
         #endregion
