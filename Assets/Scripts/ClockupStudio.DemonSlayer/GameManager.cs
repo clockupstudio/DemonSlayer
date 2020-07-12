@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using ClockupStudio.DemonSlayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
