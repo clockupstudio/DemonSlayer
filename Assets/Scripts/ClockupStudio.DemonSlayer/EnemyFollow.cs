@@ -29,6 +29,13 @@ public class EnemyFollow : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     { 
         _isAttacked = true;
+        StartCoroutine(StartFollow());
+    }
+
+    private IEnumerator StartFollow()
+    {
+        yield return new WaitForSeconds(.1f);
+        _isAttacked = false;
     }
 
 }
