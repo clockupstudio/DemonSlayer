@@ -1823,49 +1823,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
         type: 3}
-      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
-        type: 3}
       propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2095093576}
     - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
         type: 3}
-      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 1911495422}
-    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
-        type: 3}
-      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EnableCrosschair
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
-        type: 3}
-      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
-        type: 3}
-      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
-        type: 3}
       propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1911495422}
-    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
-        type: 3}
-      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: DoSlowdown
-      objectReference: {fileID: 0}
-    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
-        type: 3}
-      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 5187271849073873404, guid: 36dfc94c390216a40bc8f63b0c1944be,
         type: 3}
       propertyPath: m_LocalPosition.x

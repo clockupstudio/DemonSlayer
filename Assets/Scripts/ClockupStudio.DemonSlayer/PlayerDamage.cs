@@ -7,6 +7,7 @@ namespace ClockupStudio.DemonSlayer
     {
         private Rigidbody2D _rb2d;
         private PlayerDirection _playerDirection;
+        private PlayerMovementReadOnlyState _playerMovementReadOnlyState;
 
         public int BouncingForce = 500;
 
@@ -14,6 +15,7 @@ namespace ClockupStudio.DemonSlayer
         {
             _rb2d = GetComponent<Rigidbody2D>();
             _playerDirection = GetComponent<PlayerDirection>();
+            _playerMovementReadOnlyState = GetComponent<PlayerMovementReadOnlyState>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -23,13 +25,18 @@ namespace ClockupStudio.DemonSlayer
                 return;
             }
 
+            if (_playerMovementReadOnlyState.MovingState == PlayerMovingState.Moving)
+            {
+                return;
+            }
+
             if (_playerDirection.CurrentDirection == Direction.Left)
             {
-                _rb2d.AddForce(Vector2.right*500);
+                _rb2d.AddForce(Vector2.right*BouncingForce);
             }
             else
             {
-                _rb2d.AddForce(Vector2.left*500);
+                _rb2d.AddForce(Vector2.left*BouncingForce);
             }
         }
     }
