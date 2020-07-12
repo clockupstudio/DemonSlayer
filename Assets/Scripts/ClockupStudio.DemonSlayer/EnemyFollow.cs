@@ -6,8 +6,9 @@ using UnityEngine;
 public class EnemyFollow : MonoBehaviour
 {
     public Transform Target;
+    public float Speed = 1f;
+    
     private SpriteRenderer _sprite;
-
     private bool _isAttacked = false;
 
     private void Start()
@@ -23,7 +24,7 @@ public class EnemyFollow : MonoBehaviour
         }
 
         _sprite.flipX = transform.position.x > Target.position.x;
-        transform.position = Vector2.MoveTowards(transform.position, Target.position, Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, Target.position, Speed*Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
