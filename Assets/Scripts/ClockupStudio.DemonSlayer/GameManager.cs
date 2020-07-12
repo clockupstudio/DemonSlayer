@@ -4,22 +4,25 @@ using ClockupStudio.DemonSlayer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+namespace ClockupStudio.DemonSlayer
 {
-    public PlayerHealth PlayerHealth;
-    
-    void Update()
+    public class GameManager : MonoBehaviour
     {
-        Debug.Log($"Current HP ${PlayerHealth.CurrentHp}");
-        if (PlayerHealth.CurrentHp <= 0)
-        {
-            StartCoroutine(GoToEnding());
-        }
-    }
+        public PlayerHealth PlayerHealth;
 
-    IEnumerator GoToEnding()
-    {
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("EndingScene");
+        void Update()
+        {
+            Debug.Log($"Current HP ${PlayerHealth.CurrentHp}");
+            if (PlayerHealth.CurrentHp <= 0)
+            {
+                StartCoroutine(GoToEnding());
+            }
+        }
+
+        IEnumerator GoToEnding()
+        {
+            yield return new WaitForSeconds(1f);
+            SceneManager.LoadScene("EndingScene");
+        }
     }
 }
