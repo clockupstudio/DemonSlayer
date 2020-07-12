@@ -2074,7 +2074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4293dee7fbf63400ebc996202bb4e741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Length: 1
+  Length: 3
   TimeScaleSlowdown: 0.05
   OnTimeScaleNormal:
     m_PersistentCalls:
@@ -2184,6 +2184,11 @@ PrefabInstance:
       propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1911495422}
+    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
+        type: 3}
+      propertyPath: Force
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 5187271849073873404, guid: 36dfc94c390216a40bc8f63b0c1944be,
         type: 3}
       propertyPath: m_LocalPosition.x
