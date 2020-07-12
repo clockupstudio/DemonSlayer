@@ -13,6 +13,7 @@ namespace ClockupStudio.DemonSlayer
         private Rigidbody2D _rb2d;
         private Vector3 _origin;
         private bool _done;
+        private bool _moving;
 
         // Start is called before the first frame update
         private void Start()
@@ -36,13 +37,20 @@ namespace ClockupStudio.DemonSlayer
                 {
                     OnMoveEnd.Invoke();
                     _done = true;
+                    _moving = false;
                 }
             }
         }
 
         public void Move(Vector2 crosschairPosition)
         {
+            if (_moving)
+            {
+                return;
+            }
+
             _done = false;
+            _moving = true;
             _origin = transform.position;
             _rb2d.gravityScale = 0;
             _rb2d.velocity = (crosschairPosition - (Vector2) _origin).normalized * new Vector2(Force, Force);
