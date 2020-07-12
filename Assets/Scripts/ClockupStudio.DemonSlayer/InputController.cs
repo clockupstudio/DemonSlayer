@@ -41,7 +41,7 @@ namespace ClockupStudio.DemonSlayer
             }
         }
 
-        public void OnPlayerEndMove()
+        public void EnableCrosschair()
         {
             Crosschair.SetActive(true);
         }
