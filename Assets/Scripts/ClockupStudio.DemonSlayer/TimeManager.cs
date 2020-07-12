@@ -6,6 +6,12 @@ namespace ClockupStudio.DemonSlayer
     public class TimeManager : MonoBehaviour
     {
         public float Length = 0.5f;
+
+        // A slow down value to set to Time.timeScale. Default to 
+        // 0.5f, which is 20x slower.
+        public float TimeScaleSlowdown = 0.05f;
+
+        // Invoke after Time.timeScale go back to normal (1f).
         public UnityEvent OnTimeScaleNormal;
 
         private bool _triggered = true;
@@ -25,8 +31,7 @@ namespace ClockupStudio.DemonSlayer
 
         public void DoSlowdown()
         {
-            // 20x slower.
-            Time.timeScale = 0.05f;
+            Time.timeScale = TimeScaleSlowdown;
             _triggered = false;
             Debug.Log("Slowdown...");
         }
