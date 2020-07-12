@@ -66,8 +66,9 @@ namespace ClockupStudio.DemonSlayer
         private void MoveEnd()
         {
             ResetVelocity();
+            if (_state.MovingState == PlayerMovingState.Moving)
+                OnMoveEnd.Invoke();
             _state = UpdateState(Action.EndMove, _state);
-            OnMoveEnd.Invoke();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -96,6 +97,9 @@ namespace ClockupStudio.DemonSlayer
                         MovingState = PlayerMovingState.Moving
                     };
                 case Action.EndMove:
+                    if (state.MovingState != PlayerMovingState.Moving)
+                        return state;
+
                     return new State
                     {
                         MovingState = PlayerMovingState.BeforeMove
