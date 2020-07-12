@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 558799338}
   m_Layer: 0
   m_Name: Wall_Right
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -743,10 +743,11 @@ GameObject:
   - component: {fileID: 813708661}
   - component: {fileID: 813708663}
   - component: {fileID: 813708662}
+  - component: {fileID: 813708665}
   - component: {fileID: 813708664}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1188,6 +1189,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 16, y: 2}
   m_EdgeRadius: 0
+--- !u!50 &813708665
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813708660}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!4 &938039771 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5187271849073873404, guid: 36dfc94c390216a40bc8f63b0c1944be,
@@ -1232,7 +1254,7 @@ GameObject:
   - component: {fileID: 1000286802}
   m_Layer: 0
   m_Name: Wall_Left
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1632,6 +1654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Length: 1
+  TimeScaleSlowdown: 0.05
   OnTimeScaleNormal:
     m_PersistentCalls:
       m_Calls:
@@ -1785,6 +1808,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
         type: 3}
+      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
+        type: 3}
       propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2095093576}
@@ -1797,6 +1825,31 @@ PrefabInstance:
         type: 3}
       propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: EnableCrosschair
+      objectReference: {fileID: 0}
+    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
+        type: 3}
+      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
+        type: 3}
+      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
+        type: 3}
+      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1911495422}
+    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
+        type: 3}
+      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DoSlowdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 5187271849073873401, guid: 36dfc94c390216a40bc8f63b0c1944be,
+        type: 3}
+      propertyPath: OnMoveEnd.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5187271849073873404, guid: 36dfc94c390216a40bc8f63b0c1944be,
         type: 3}
