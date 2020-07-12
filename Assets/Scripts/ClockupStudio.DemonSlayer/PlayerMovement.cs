@@ -4,7 +4,9 @@ using UnityEngine.Events;
 
 namespace ClockupStudio.DemonSlayer
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(
+        typeof(Rigidbody2D),
+        typeof(PlayerMovementReadOnlyState))]
     public class PlayerMovement : MonoBehaviour
     {
         public float Force;
@@ -12,9 +14,9 @@ namespace ClockupStudio.DemonSlayer
         public UnityEvent OnMoveEnd;
 
         private Rigidbody2D _rb2d;
-        private Vector3 _origin;
-        private bool _done;
+        private PlayerMovementReadOnlyState _movementState;
 
+        private Vector3 _origin;
         private State _state;
 
         // An internal state for this component.
@@ -35,17 +37,18 @@ namespace ClockupStudio.DemonSlayer
         private void Start()
         {
             _rb2d = GetComponent<Rigidbody2D>();
+            _movementState = GetComponent<PlayerMovementReadOnlyState>();
             _state = new State
             {
                 MovingState = PlayerMovingState.Falling
             };
             _origin = transform.position;
-            _done = false;
         }
 
         // Update is called once per frame
         private void Update()
         {
+            _movementState.MovingState = _state.MovingState;
             if (_rb2d.velocity == Vector2.zero)
             {
                 return;
@@ -53,15 +56,18 @@ namespace ClockupStudio.DemonSlayer
 
             if (Vector2.Distance(_origin, transform.position) >= Distance)
             {
-                if (!_done)
+                if (_state.MovingState == PlayerMovingState.Moving)
                 {
-                    DisableMoving();
-                    ResetVelocity();
-                    _state = UpdateState(Action.EndMove);
-                    _done = true;
-                    OnMoveEnd.Invoke();
+                    MoveEnd();
                 }
             }
+        }
+
+        private void MoveEnd()
+        {
+            ResetVelocity();
+            _state = UpdateState(Action.EndMove, _state);
+            OnMoveEnd.Invoke();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -69,12 +75,19 @@ namespace ClockupStudio.DemonSlayer
             if (other.gameObject.CompareTag("Ground"))
             {
                 Debug.Log("Player hit the ground");
-                _state = UpdateState(Action.HitGround);
+                _state = UpdateState(Action.HitGround, _state);
+            }
+
+            if (other.gameObject.CompareTag("Wall"))
+            {
+                Debug.Log("Player hit the wall");
+                MoveEnd();
             }
         }
 
-        private static State UpdateState(Action action)
+        private static State UpdateState(Action action, State state)
         {
+            Debug.Log($"Receive action: {action}");
             switch (action)
             {
                 case Action.StartMoving:
@@ -88,6 +101,10 @@ namespace ClockupStudio.DemonSlayer
                         MovingState = PlayerMovingState.BeforeMove
                     };
                 case Action.DisableMoving:
+                    if (state.MovingState == PlayerMovingState.OnGround
+                        || state.MovingState == PlayerMovingState.Moving)
+                        return state;
+
                     return new State
                     {
                         MovingState = PlayerMovingState.Falling
@@ -110,8 +127,7 @@ namespace ClockupStudio.DemonSlayer
                 return;
             }
 
-            _done = false;
-            _state = UpdateState(Action.StartMoving);
+            _state = UpdateState(Action.StartMoving, _state);
             _origin = transform.position;
             _rb2d.gravityScale = 0;
             _rb2d.velocity = (crosschairPosition - (Vector2) _origin).normalized * new Vector2(Force, Force);
@@ -123,9 +139,10 @@ namespace ClockupStudio.DemonSlayer
             _rb2d.gravityScale = 1;
         }
 
-        private void DisableMoving()
+        public void DisableMoving()
         {
-            _state = UpdateState(Action.DisableMoving);
+            Debug.Log("Disable Moving..");
+            _state = UpdateState(Action.DisableMoving, _state);
         }
     }
 
