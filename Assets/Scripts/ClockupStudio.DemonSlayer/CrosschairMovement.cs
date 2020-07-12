@@ -65,12 +65,12 @@ namespace ClockupStudio.DemonSlayer
             switch (dir)
             {
                 case Direction.Right:
-                    state.StartAngle = 0f;
+                    state.StartAngle = -90f;
                     state.EndAngle = 90f;
                     state.Rotation = Rotation.CounterClockwise;
                     break;
                 case Direction.Left:
-                    state.StartAngle = 180f;
+                    state.StartAngle = 270f;
                     state.EndAngle = 90f;
                     state.Rotation = Rotation.Clockwise;
                     break;
