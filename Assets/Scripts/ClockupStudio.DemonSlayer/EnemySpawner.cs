@@ -32,7 +32,7 @@ namespace ClockupStudio.DemonSlayer
                 var enemy = Instantiate(EnemyPrefab, transform);
                 var follow = enemy.GetComponent<EnemyFollow>();
                 follow.Target = Target;
-                follow.Speed = Random.Range(1f, 3f);
+                follow.Speed = Random.Range(0.5f, 2f);
             }
 
 
