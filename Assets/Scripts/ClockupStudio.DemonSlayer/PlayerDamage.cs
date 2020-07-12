@@ -8,6 +8,7 @@ namespace ClockupStudio.DemonSlayer
         private Rigidbody2D _rb2d;
         private PlayerDirection _playerDirection;
         private PlayerMovementReadOnlyState _playerMovementReadOnlyState;
+        private PlayerHealth _playerHealth;
 
         public int BouncingForce = 500;
 
@@ -16,6 +17,7 @@ namespace ClockupStudio.DemonSlayer
             _rb2d = GetComponent<Rigidbody2D>();
             _playerDirection = GetComponent<PlayerDirection>();
             _playerMovementReadOnlyState = GetComponent<PlayerMovementReadOnlyState>();
+            _playerHealth = GetComponent<PlayerHealth>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -29,6 +31,8 @@ namespace ClockupStudio.DemonSlayer
             {
                 return;
             }
+
+            _playerHealth.Decrease();
 
             if (_playerDirection.CurrentDirection == Direction.Left)
             {
