@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace ClockupStudio.DemonSlayer
 {
-    internal enum Rotation
+    [Serializable]
+    public struct RotationAngle
     {
-        Clockwise = -1,
-        CounterClockwise = 1
+        public float From;
+        public float To;
     }
-
 
     public class CrosschairMovement : MonoBehaviour
     {
@@ -17,33 +17,48 @@ namespace ClockupStudio.DemonSlayer
         public float Speed = 2f;
         public PlayerDirection PlayerDirection;
 
-        private State _state;
+        public RotationAngle LeftRotation;
+        public RotationAngle RightRotation;
 
-        // Represents internal state for this component.
-        private struct State
-        {
-            // Track angle in each update loop.
-            public float CurrentAngle;
-            public float StartAngle, EndAngle;
-            public Rotation Rotation;
-            public Direction PreviousPlayerDirection;
-        }
+        // available value from 0f to 1f.
+        private float _anglePercentage;
+        private RotationAngle _currentRotationAngle;
+        private Direction _previousPlayerDirection;
 
         private void Start()
         {
-            _state = InitializeState(PlayerDirection.CurrentDirection);
+            Initialize();
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (_state.PreviousPlayerDirection != PlayerDirection.CurrentDirection)
+            if (_previousPlayerDirection != PlayerDirection.CurrentDirection)
             {
-                _state = InitializeState(PlayerDirection.CurrentDirection);
+                Debug.Log("Player change direction, Re-initialize state.");
+                Initialize();
             }
 
-            transform.position = PositionFromAngle(_state.CurrentAngle) + PlayerPosition.position;
-            _state = UpdateState(_state, Time.unscaledDeltaTime, Speed);
+            // set Crosshair transform base on angle.
+            var angle = Mathf.Lerp(_currentRotationAngle.From, _currentRotationAngle.To, _anglePercentage);
+            Debug.Log($"Current angle {angle}");
+            transform.position = PositionFromAngle(angle) + PlayerPosition.position;
+
+            _anglePercentage += Speed * Time.unscaledDeltaTime;
+            Debug.Log($"angle percentage {_anglePercentage}");
+
+            if (_anglePercentage < 1f)
+                return;
+
+            _currentRotationAngle = FlipRotationAngle(_currentRotationAngle);
+            _anglePercentage = 0f;
+        }
+
+        private void Initialize()
+        {
+            _currentRotationAngle = RotationAngleFromDirection(PlayerDirection.CurrentDirection);
+            _previousPlayerDirection = PlayerDirection.CurrentDirection;
+            _anglePercentage = 0f;
         }
 
         private Vector3 PositionFromAngle(float angle)
@@ -53,77 +68,28 @@ namespace ClockupStudio.DemonSlayer
             return new Vector3(x, y);
         }
 
-        #region State
+        #region Rotation
 
-        private static State InitializeState(Direction dir)
+        private RotationAngle RotationAngleFromDirection(Direction dir)
         {
-            var state = new State
-            {
-                PreviousPlayerDirection = dir
-            };
-
             switch (dir)
             {
-                case Direction.Right:
-                    state.StartAngle = -90f;
-                    state.EndAngle = 90f;
-                    state.Rotation = Rotation.CounterClockwise;
-                    break;
                 case Direction.Left:
-                    state.StartAngle = 270f;
-                    state.EndAngle = 90f;
-                    state.Rotation = Rotation.Clockwise;
-                    break;
+                    return LeftRotation;
+                case Direction.Right:
+                    return RightRotation;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
             }
-
-            state.CurrentAngle = state.StartAngle;
-            return state;
         }
 
-        private static State UpdateState(State previousState, float unscaledDeltaTime, float speed)
+        private static RotationAngle FlipRotationAngle(RotationAngle rotationAngle)
         {
-            return new State
+            return new RotationAngle
             {
-                StartAngle = previousState.StartAngle,
-                EndAngle = previousState.EndAngle,
-                CurrentAngle = previousState.CurrentAngle + (unscaledDeltaTime * speed * (int) previousState.Rotation),
-                PreviousPlayerDirection = previousState.PreviousPlayerDirection,
-                Rotation = NextRotation(previousState.Rotation, previousState.CurrentAngle, previousState.StartAngle,
-                    previousState.EndAngle)
+                From = rotationAngle.To,
+                To = rotationAngle.From
             };
-        }
-
-        #endregion
-
-        #region Rotation
-
-        private static Rotation NextRotation(Rotation rotation, float angle, float startAngle,
-            float endAngle)
-        {
-            if (startAngle > endAngle)
-            {
-                switch (rotation)
-                {
-                    case Rotation.CounterClockwise when angle >= startAngle:
-                        return Rotation.Clockwise;
-                    case Rotation.Clockwise when angle <= endAngle:
-                        return Rotation.CounterClockwise;
-                }
-            }
-            else if (startAngle < endAngle)
-            {
-                switch (rotation)
-                {
-                    // For rotation of right direction.
-                    case Rotation.CounterClockwise when angle >= endAngle:
-                        return Rotation.Clockwise;
-                    case Rotation.Clockwise when angle <= startAngle:
-                        return Rotation.CounterClockwise;
-                }
-            }
-            return rotation;
         }
 
         #endregion

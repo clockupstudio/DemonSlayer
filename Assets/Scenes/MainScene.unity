@@ -217,8 +217,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPosition: {fileID: 938039771}
   Radius: 1
-  Speed: 100
+  Speed: 1
   PlayerDirection: {fileID: 938039775}
+  LeftRotation:
+    From: 270
+    To: 90
+  RightRotation:
+    From: -90
+    To: 90
 --- !u!1 &137230692
 GameObject:
   m_ObjectHideFlags: 0
